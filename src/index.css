@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { font-family: 'Inter', sans-serif; }
+  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+  :root { --scrollbar-color: #263447; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #131a26; }
+  ::-webkit-scrollbar-thumb { background: #263447; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #51adc2; }
+}
+
+@layer utilities {
+  .glow-rose { box-shadow: 0 0 20px rgba(255, 59, 131, 0.25); }
+  .glow-cyan  { box-shadow: 0 0 20px rgba(81, 173, 194, 0.25); }
+  .glow-gold  { box-shadow: 0 0 20px rgba(255, 212, 59, 0.2); }
+  .card { @apply bg-navy-700 rounded-xl border border-white/5 p-5; }
+  .badge-rose { @apply px-2 py-0.5 rounded-full text-xs font-medium bg-rose-accent/10 text-rose-accent; }
+  .badge-cyan { @apply px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-accent/10 text-cyan-accent; }
+  .badge-gold { @apply px-2 py-0.5 rounded-full text-xs font-medium bg-gold-accent/10 text-gold-accent; }
+  .badge-green { @apply px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400; }
+}
