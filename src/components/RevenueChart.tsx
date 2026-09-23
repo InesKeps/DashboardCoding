@@ -4,14 +4,15 @@ import {
   Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
 import { revenueData, weeklyData } from '../data/analytics'
+import { useTheme } from '../context/ThemeContext'
 
 type Tab = 'revenue' | 'users' | 'weekly'
 
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { name: string; value: number; color: string }[]; label?: string }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-navy-900 border border-white/10 rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-white/50 text-xs mb-1">{label}</p>
+    <div className="bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 shadow-xl">
+      <p className="text-slate-500 dark:text-white/50 text-xs mb-1">{label}</p>
       {payload.map((p) => (
         <p key={p.name} className="text-sm font-semibold" style={{ color: p.color }}>
           {p.name === 'revenue' ? `$${(p.value / 1000).toFixed(1)}K`
@@ -25,6 +26,10 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?:
 
 export default function RevenueChart() {
   const [tab, setTab] = useState<Tab>('revenue')
+  const isDark = useTheme()
+
+  const tickColor = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.4)'
+  const gridColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)'
 
   const tabs: { key: Tab; label: string }[] = [
     { key: 'revenue', label: 'Revenue' },
@@ -36,10 +41,10 @@ export default function RevenueChart() {
     <div className="card">
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div>
-          <h3 className="text-white font-semibold text-sm">Performance Overview</h3>
-          <p className="text-white/40 text-xs mt-0.5">Jan – Dec 2024</p>
+          <h3 className="text-slate-800 dark:text-white font-semibold text-sm">Performance Overview</h3>
+          <p className="text-slate-400 dark:text-white/40 text-xs mt-0.5">Jan – Dec 2024</p>
         </div>
-        <div className="flex items-center bg-navy-900 rounded-lg p-0.5 gap-0.5">
+        <div className="flex items-center bg-slate-100 dark:bg-navy-900 rounded-lg p-0.5 gap-0.5">
           {tabs.map(({ key, label }) => (
             <button
               key={key}
@@ -47,7 +52,7 @@ export default function RevenueChart() {
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                 tab === key
                   ? 'bg-rose-accent text-white shadow'
-                  : 'text-white/40 hover:text-white'
+                  : 'text-slate-500 dark:text-white/40 hover:text-slate-800 dark:hover:text-white'
               }`}
             >
               {label}
@@ -59,14 +64,14 @@ export default function RevenueChart() {
       <ResponsiveContainer width="100%" height={220}>
         {tab === 'weekly' ? (
           <BarChart data={weeklyData} barCategoryGap="30%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-            <XAxis dataKey="day" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} axisLine={false} tickLine={false} width={40}
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+            <XAxis dataKey="day" tick={{ fill: tickColor, fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: tickColor, fontSize: 11 }} axisLine={false} tickLine={false} width={40}
               tickFormatter={(v) => `${(v/1000).toFixed(0)}K`} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="sales"  name="sales"  fill="#ff3b83" radius={[4,4,0,0]} />
             <Bar dataKey="visits" name="visits" fill="#51adc2" radius={[4,4,0,0]} />
-            <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }} />
+            <Legend wrapperStyle={{ color: tickColor, fontSize: 11 }} />
           </BarChart>
         ) : (
           <AreaChart data={revenueData}>
@@ -80,9 +85,9 @@ export default function RevenueChart() {
                 <stop offset="95%" stopColor="#51adc2" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-            <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} axisLine={false} tickLine={false} width={40}
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+            <XAxis dataKey="month" tick={{ fill: tickColor, fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: tickColor, fontSize: 11 }} axisLine={false} tickLine={false} width={40}
               tickFormatter={(v) => tab === 'revenue' ? `$${(v/1000).toFixed(0)}K` : `${(v/1000).toFixed(1)}K`} />
             <Tooltip content={<CustomTooltip />} />
             {tab === 'revenue'

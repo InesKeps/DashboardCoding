@@ -69,9 +69,9 @@ export default function KPICard({ label, value, prefix = '', suffix = '', delta,
       onMouseLeave={() => setHovered(false)}
     >
       <div className="flex items-start justify-between mb-3">
-        <p className="text-white/50 text-xs font-medium uppercase tracking-wide">{label}</p>
+        <p className="text-slate-500 dark:text-white/50 text-xs font-medium uppercase tracking-wide">{label}</p>
         <span className={`text-[10px] font-semibold flex items-center gap-0.5 px-2 py-0.5 rounded-full ${
-          isUp ? 'text-emerald-400 bg-emerald-400/10' : 'text-red-400 bg-red-400/10'
+          isUp ? 'text-emerald-500 bg-emerald-500/10' : 'text-red-400 bg-red-400/10'
         }`}>
           {isUp ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
           {Math.abs(delta)}%
@@ -80,10 +80,10 @@ export default function KPICard({ label, value, prefix = '', suffix = '', delta,
       <p className={`text-2xl font-bold ${c.text}`} style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
         {prefix}{formatted}{suffix}
       </p>
-      <p className="text-white/25 text-[11px] mt-1">vs. last month</p>
+      <p className="text-slate-400 dark:text-white/25 text-[11px] mt-1">vs. last month</p>
 
       {/* Mini sparkline bar */}
-      <div className="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
+      <div className="mt-3 h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-1000 ${c.bg.replace('/10', '/60')}`}
           style={{ width: `${Math.min(70 + Math.abs(delta), 100)}%`, transitionDelay: `${delay + 300}ms` }}

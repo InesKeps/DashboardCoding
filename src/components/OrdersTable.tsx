@@ -23,7 +23,7 @@ export default function OrdersTable() {
   }
 
   const SortIcon = ({ k }: { k: SortKey }) => {
-    if (sortKey !== k) return <ArrowUpDown size={12} className="text-white/20" />
+    if (sortKey !== k) return <ArrowUpDown size={12} className="text-slate-300 dark:text-white/20" />
     return sortDir === 'asc'
       ? <ArrowUp size={12} className="text-rose-accent" />
       : <ArrowDown size={12} className="text-rose-accent" />
@@ -47,22 +47,22 @@ export default function OrdersTable() {
     <div className="card">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div>
-          <h3 className="text-white font-semibold text-sm">Recent Orders</h3>
-          <p className="text-white/40 text-xs mt-0.5">{filtered.length} transactions</p>
+          <h3 className="text-slate-800 dark:text-white font-semibold text-sm">Recent Orders</h3>
+          <p className="text-slate-400 dark:text-white/40 text-xs mt-0.5">{filtered.length} transactions</p>
         </div>
         <input
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search orders…"
-          className="bg-navy-900 border border-white/5 rounded-lg px-3 py-1.5 text-xs text-white/70 placeholder:text-white/25 outline-none focus:border-rose-accent/40 transition-colors w-44"
+          className="bg-slate-100 dark:bg-navy-900 border border-slate-200 dark:border-white/5 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-white/70 placeholder:text-slate-400 dark:placeholder:text-white/25 outline-none focus:border-rose-accent/40 transition-colors w-44"
         />
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/5">
+            <tr className="border-b border-slate-200 dark:border-white/5">
               {([
                 { key: 'id' as SortKey,       label: 'Order ID' },
                 { key: 'customer' as SortKey,  label: 'Customer' },
@@ -73,8 +73,8 @@ export default function OrdersTable() {
               ] as { key: SortKey | null; label: string }[]).map(({ key, label }) => (
                 <th
                   key={label}
-                  className={`text-left text-white/30 text-xs font-medium uppercase tracking-wide py-2 px-3 first:pl-0 last:pr-0
-                    ${key ? 'cursor-pointer hover:text-white/60 select-none' : ''}`}
+                  className={`text-left text-slate-400 dark:text-white/30 text-xs font-medium uppercase tracking-wide py-2 px-3 first:pl-0 last:pr-0
+                    ${key ? 'cursor-pointer hover:text-slate-600 dark:hover:text-white/60 select-none' : ''}`}
                   onClick={() => key && toggleSort(key)}
                 >
                   <span className="flex items-center gap-1">
@@ -89,23 +89,23 @@ export default function OrdersTable() {
             {filtered.map((order, i) => (
               <tr
                 key={order.id}
-                className="border-b border-white/5 hover:bg-white/[0.03] transition-colors animate-fade-in"
+                className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-colors animate-fade-in"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <td className="py-3 px-3 pl-0 text-rose-accent font-medium text-xs">{order.id}</td>
-                <td className="py-3 px-3 text-white/80 whitespace-nowrap">{order.customer}</td>
-                <td className="py-3 px-3 text-white/50 text-xs whitespace-nowrap">{order.product}</td>
-                <td className="py-3 px-3 text-white font-semibold">${order.amount}</td>
+                <td className="py-3 px-3 text-slate-700 dark:text-white/80 whitespace-nowrap">{order.customer}</td>
+                <td className="py-3 px-3 text-slate-400 dark:text-white/50 text-xs whitespace-nowrap">{order.product}</td>
+                <td className="py-3 px-3 text-slate-800 dark:text-white font-semibold">${order.amount}</td>
                 <td className="py-3 px-3">
                   <span className={statusStyle[order.status]}>{order.status}</span>
                 </td>
-                <td className="py-3 px-3 pr-0 text-white/30 text-xs whitespace-nowrap">{order.date}</td>
+                <td className="py-3 px-3 pr-0 text-slate-400 dark:text-white/30 text-xs whitespace-nowrap">{order.date}</td>
               </tr>
             ))}
           </tbody>
         </table>
         {filtered.length === 0 && (
-          <p className="text-white/30 text-sm text-center py-6">No orders found</p>
+          <p className="text-slate-400 dark:text-white/30 text-sm text-center py-6">No orders found</p>
         )}
       </div>
     </div>

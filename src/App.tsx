@@ -1,15 +1,35 @@
 import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
-import KPICard from './components/KPICard'
-import RevenueChart from './components/RevenueChart'
-import OrdersTable from './components/OrdersTable'
-import RightPanel from './components/RightPanel'
-import { kpis } from './data/analytics'
+import DashboardPage  from './pages/DashboardPage'
+import AnalyticsPage  from './pages/AnalyticsPage'
+import OrdersPage     from './pages/OrdersPage'
+import CustomersPage  from './pages/CustomersPage'
+import ProductsPage   from './pages/ProductsPage'
+import ReportsPage    from './pages/ReportsPage'
+import AlertsPage     from './pages/AlertsPage'
+import SettingsPage   from './pages/SettingsPage'
+import { ThemeContext } from './context/ThemeContext'
+
+type Page = 'Dashboard' | 'Analytics' | 'Orders' | 'Customers' | 'Products' | 'Reports' | 'Alerts' | 'Settings'
+
+function PageContent({ page }: { page: Page }) {
+  switch (page) {
+    case 'Dashboard':  return <DashboardPage />
+    case 'Analytics':  return <div className="p-5"><AnalyticsPage /></div>
+    case 'Orders':     return <div className="p-5"><OrdersPage /></div>
+    case 'Customers':  return <div className="p-5"><CustomersPage /></div>
+    case 'Products':   return <div className="p-5"><ProductsPage /></div>
+    case 'Reports':    return <div className="p-5"><ReportsPage /></div>
+    case 'Alerts':     return <div className="p-5"><AlertsPage /></div>
+    case 'Settings':   return <div className="p-5"><SettingsPage /></div>
+  }
+}
 
 export default function App() {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark]       = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState<Page>('Dashboard')
 
   useEffect(() => {
     const root = document.documentElement
@@ -17,62 +37,33 @@ export default function App() {
   }, [isDark])
 
   return (
-    <div className={`min-h-screen bg-navy-800 text-white ${isDark ? 'dark' : ''}`}>
-      <div className="flex h-screen overflow-hidden">
-        {/* Sidebar */}
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <ThemeContext.Provider value={isDark}>
+      <div className="min-h-screen bg-slate-100 dark:bg-navy-800 text-slate-800 dark:text-white">
+        <div className="flex h-screen overflow-hidden">
 
-        {/* Main column */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <Header
-            isDark={isDark}
-            onToggleTheme={() => setIsDark(d => !d)}
-            onMenuClick={() => setSidebarOpen(o => !o)}
+          <Sidebar
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            activePage={currentPage}
+            onNavigate={(page) => setCurrentPage(page as Page)}
           />
 
-          {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="flex gap-5 p-5 min-h-full">
+          {/* Main column */}
+          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <Header
+              isDark={isDark}
+              onToggleTheme={() => setIsDark(d => !d)}
+              onMenuClick={() => setSidebarOpen(o => !o)}
+            />
 
-              {/* Center content */}
-              <div className="flex-1 min-w-0 space-y-5">
-
-                {/* Page heading */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h1 className="text-white text-xl font-bold" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                      Dashboard
-                    </h1>
-                    <p className="text-white/40 text-xs mt-0.5">
-                      Welcome back, Ines — here's what's happening today.
-                    </p>
-                  </div>
-                  <div className="hidden sm:flex items-center gap-2 text-xs text-white/40">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Live
-                  </div>
-                </div>
-
-                {/* KPI Cards */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  {kpis.map((kpi, i) => (
-                    <KPICard key={kpi.label} {...kpi} delay={i * 80} />
-                  ))}
-                </div>
-
-                {/* Revenue chart */}
-                <RevenueChart />
-
-                {/* Orders table */}
-                <OrdersTable />
-              </div>
-
-              {/* Right panel */}
-              <RightPanel />
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto">
+              <PageContent page={currentPage} />
             </div>
           </div>
+
         </div>
       </div>
-    </div>
+    </ThemeContext.Provider>
   )
 }

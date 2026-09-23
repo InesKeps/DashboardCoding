@@ -5,7 +5,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { name
   if (!active || !payload?.length) return null
   const d = payload[0]
   return (
-    <div className="bg-navy-900 border border-white/10 rounded-lg px-3 py-2 shadow-xl text-xs">
+    <div className="bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 shadow-xl text-xs">
       <span style={{ color: d.payload.color }} className="font-semibold">{d.name}: {d.value}%</span>
     </div>
   )
@@ -17,8 +17,8 @@ export default function RightPanel() {
 
       {/* Donut chart — Traffic sources */}
       <div className="card">
-        <h3 className="text-white font-semibold text-sm mb-1">Traffic Sources</h3>
-        <p className="text-white/40 text-xs mb-3">Last 30 days</p>
+        <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-1">Traffic Sources</h3>
+        <p className="text-slate-400 dark:text-white/40 text-xs mb-3">Last 30 days</p>
 
         <ResponsiveContainer width="100%" height={130}>
           <PieChart>
@@ -43,9 +43,9 @@ export default function RightPanel() {
             <div key={s.name} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
-                <span className="text-white/60 text-xs">{s.name}</span>
+                <span className="text-slate-500 dark:text-white/60 text-xs">{s.name}</span>
               </div>
-              <span className="text-white/80 text-xs font-medium">{s.value}%</span>
+              <span className="text-slate-700 dark:text-white/80 text-xs font-medium">{s.value}%</span>
             </div>
           ))}
         </div>
@@ -53,7 +53,7 @@ export default function RightPanel() {
 
       {/* Quick stats */}
       <div className="card space-y-3">
-        <h3 className="text-white font-semibold text-sm">Quick Stats</h3>
+        <h3 className="text-slate-800 dark:text-white font-semibold text-sm">Quick Stats</h3>
         {[
           { label: 'Conversion Rate', value: '3.42%',  bar: 34 },
           { label: 'Bounce Rate',     value: '42.1%',  bar: 42 },
@@ -62,10 +62,10 @@ export default function RightPanel() {
         ].map(({ label, value, bar }) => (
           <div key={label}>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-white/50">{label}</span>
-              <span className="text-white font-medium">{value}</span>
+              <span className="text-slate-500 dark:text-white/50">{label}</span>
+              <span className="text-slate-800 dark:text-white font-medium">{value}</span>
             </div>
-            <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+            <div className="h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-rose-accent to-cyan-accent"
                 style={{ width: `${bar}%` }}
@@ -77,7 +77,7 @@ export default function RightPanel() {
 
       {/* Activity feed */}
       <div className="card flex-1">
-        <h3 className="text-white font-semibold text-sm mb-3">Live Activity</h3>
+        <h3 className="text-slate-800 dark:text-white font-semibold text-sm mb-3">Live Activity</h3>
         <div className="space-y-3">
           {activities.map((a, i) => (
             <div
@@ -92,8 +92,8 @@ export default function RightPanel() {
                 {a.icon}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-white/70 text-xs leading-snug">{a.text}</p>
-                <p className="text-white/25 text-[10px] mt-0.5">{a.time}</p>
+                <p className="text-slate-600 dark:text-white/70 text-xs leading-snug">{a.text}</p>
+                <p className="text-slate-400 dark:text-white/25 text-[10px] mt-0.5">{a.time}</p>
               </div>
             </div>
           ))}
